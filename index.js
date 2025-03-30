@@ -1,6 +1,8 @@
 function fetchBooks() {
-  // To pass the tests, don't forget to return your fetch!
-  
+  // Return the fetch promise chain so tests can access it
+  return fetch('https://anapioficeandfire.com/api/books')
+    .then(response => response.json())
+    .then(json => renderBooks(json));
 }
 
 function renderBooks(books) {
@@ -11,7 +13,21 @@ function renderBooks(books) {
     main.appendChild(h2);
   });
 }
-
-document.addEventListener('DOMContentLoaded', function() {
-  fetchBooks();
-});
+fetch("https://anapioficeandfire.com/api/books")
+  .then(resp => resp.json())
+  .then(books => {
+    // The 5th book (array index 4 since arrays are 0-based)
+    const fifthBook = books[4];
+    console.log("5th Book:", fifthBook.name);
+  });
+  fetch("https://anapioficeandfire.com/api/characters/1031")
+  .then(resp => resp.json())
+  .then(character => {
+    console.log("1031st Character:", character.name);
+  });
+  fetch("https://anapioficeandfire.com/api/books")
+  .then(resp => resp.json())
+  .then(books => {
+    const totalPages = books.reduce((sum, book) => sum + book.numberOfPages, 0);
+    console.log("Total Pages:", totalPages);
+  });
